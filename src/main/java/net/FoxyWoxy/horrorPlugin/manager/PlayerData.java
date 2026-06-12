@@ -11,12 +11,19 @@ public class PlayerData {
     private long                gazingAtStalkerSince = -1L;
     private boolean             paranoiaActive       = false;
     private long                paranoiaExpiresAt    = 0L;
+    private boolean gazeLocked   = false;
+    private boolean forceImmune  = false;
 
     public PlayerData(Player player) { this.player = player; }
 
     public boolean       hasActiveStalker()           { return activeStalker != null && activeStalker.isAlive(); }
     public StalkerEntity getActiveStalker()            { return activeStalker; }
     public void          setActiveStalker(StalkerEntity s) { this.activeStalker = s; }
+    public boolean isGazeLocked()          { return gazeLocked; }
+    public void    setGazeLocked(boolean b){ this.gazeLocked = b; }
+    public boolean isForceImmune()         { return forceImmune; }
+    public void    setForceImmune(boolean b){ this.forceImmune = b; }
+
 
     public void clearActiveStalker() {
         if (activeStalker != null && activeStalker.isAlive()) activeStalker.despawn();
@@ -25,6 +32,7 @@ public class PlayerData {
 
     public boolean isCooldownExpired()    { return System.currentTimeMillis() >= nextSpawnAllowedAt; }
     public void    setCooldown(long secs) { nextSpawnAllowedAt = System.currentTimeMillis() + secs * 1000L; }
+    public long getNextSpawnAllowedAt() { return nextSpawnAllowedAt; }
 
     public boolean isGazingAtStalker() { return gazingAtStalkerSince >= 0; }
     public void    startGaze()         { if (gazingAtStalkerSince < 0) gazingAtStalkerSince = System.currentTimeMillis(); }

@@ -12,6 +12,11 @@ commands:
     description: Admin commands for the horror plugin
     usage: /horror <reload|give|debug|spawn>
     permission: horror.admin
+  foxyshorrorplugin:
+      description: Horror plugin debug commands
+      usage: /foxyshorrorplugin <subcommand>
+      permission: horror.admin
+      aliases: [ fhp ]
 
 permissions:
   horror.admin:

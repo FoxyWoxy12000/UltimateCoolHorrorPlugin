@@ -35,7 +35,7 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
 
         switch (args[0].toLowerCase()) {
 
-            // /hfoxyshorrorplugin spawn [player]
+            // /foxyshorrorplugin spawn [player]
             // Force spawns the stalker on a player
             case "spawn" -> {
                 Player target = resolveTarget(sender, args, 1);
@@ -44,7 +44,7 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§aStalker force-spawned on §f" + target.getName());
             }
 
-            // /hfoxyshorrorplugin despawn [player]
+            // /foxyshorrorplugin despawn [player]
             // Removes the stalker from a player
             case "despawn" -> {
                 Player target = resolveTarget(sender, args, 1);
@@ -58,14 +58,14 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
                 }
             }
 
-            // /hfoxyshorrorplugin despawnall
+            // /foxyshorrorplugin despawnall
             // Removes all stalkers from all players
             case "despawnall" -> {
                 plugin.getStalkerManager().despawnAll();
                 sender.sendMessage("§aAll stalkers despawned.");
             }
 
-            // /hfoxyshorrorplugin freeze [player]
+            // /foxyshorrorplugin freeze [player]
             // Stalker will not despawn when looked at (toggle)
             case "freeze" -> {
                 Player target = resolveTarget(sender, args, 1);
@@ -76,7 +76,7 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
                         + "§e: " + (data.isGazeLocked() ? "§aON (won't despawn on look)" : "§cOFF"));
             }
 
-            // /hfoxyshorrorplugin nocooldown [player]
+            // /foxyshorrorplugin nocooldown [player]
             // Resets spawn cooldown to 0 so stalker can spawn immediately
             case "nocooldown" -> {
                 Player target = resolveTarget(sender, args, 1);
@@ -85,11 +85,11 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§aCooldown cleared for §f" + target.getName());
             }
 
-            // /hfoxyshorrorplugin pose <pose> [player]
+            // /foxyshorrorplugin pose <pose> [player]
             // Changes the active stalker's pose
             case "pose" -> {
                 if (args.length < 2) {
-                    sender.sendMessage("§cUsage: /hfoxyshorrorplugin pose <pose> [player]");
+                    sender.sendMessage("§cUsage: /foxyshorrorplugin pose <pose> [player]");
                     sender.sendMessage("§7Poses: " + Arrays.stream(PoseType.values())
                             .map(p -> p.name().toLowerCase())
                             .collect(Collectors.joining(", ")));
@@ -115,7 +115,7 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§aPose set to §f" + pose.name() + "§a for §f" + target.getName());
             }
 
-            // /hfoxyshorrorplugin info [player]
+            // /foxyshorrorplugin info [player]
             // Shows current stalker state for a player
             case "info" -> {
                 Player target = resolveTarget(sender, args, 1);
@@ -137,7 +137,7 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage("§eParanoia remaining: §f" + data.paranoiaRemainingSeconds() + "s");
             }
 
-            // /hfoxyshorrorplugin paranoia [player]
+            // /foxyshorrorplugin paranoia [player]
             // Applies paranoia effect to a player immediately
             case "paranoia" -> {
                 Player target = resolveTarget(sender, args, 1);
@@ -148,7 +148,7 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
                         + "§a for §f" + duration + "s");
             }
 
-            // /hfoxyshorrorplugin immune [player]
+            // /foxyshorrorplugin immune [player]
             // Toggles horror.immune permission workaround for testing
             case "immune" -> {
                 Player target = resolveTarget(sender, args, 1);
@@ -159,7 +159,7 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
                         + "§e: " + (data.isForceImmune() ? "§aON" : "§cOFF"));
             }
 
-            // /hfoxyshorrorplugin reload
+            // /foxyshorrorplugin reload
             // Reloads config
             case "reload" -> {
                 plugin.reloadConfig();
@@ -167,7 +167,7 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§aConfig reloaded.");
             }
 
-            // /hfoxyshorrorplugin debug
+            // /foxyshorrorplugin debug
             // Toggles debug logging
             case "debug" -> {
                 boolean cur = plugin.getConfig().getBoolean("debug.enabled", false);
@@ -175,7 +175,7 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§eDebug mode: " + (!cur ? "§aON" : "§cOFF"));
             }
 
-            // /hfoxyshorrorplugin giveeye [player]
+            // /foxyshorrorplugin giveeye [player]
             // Gives the cursed eye item
             case "giveeye" -> {
                 Player target = resolveTarget(sender, args, 1);
@@ -191,18 +191,18 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
 
     private void sendHelp(CommandSender sender) {
         sender.sendMessage("§6--- Horror Plugin Commands ---");
-        sender.sendMessage("§e/hfoxyshorrorplugin spawn [player]       §7- Force spawn stalker");
-        sender.sendMessage("§e/hfoxyshorrorplugin despawn [player]     §7- Remove stalker");
-        sender.sendMessage("§e/hfoxyshorrorplugin despawnall           §7- Remove all stalkers");
-        sender.sendMessage("§e/hfoxyshorrorplugin freeze [player]      §7- Toggle gaze-lock (won't despawn on look)");
-        sender.sendMessage("§e/hfoxyshorrorplugin nocooldown [player]  §7- Clear spawn cooldown");
-        sender.sendMessage("§e/hfoxyshorrorplugin pose <pose> [player] §7- Set active stalker pose");
-        sender.sendMessage("§e/hfoxyshorrorplugin info [player]        §7- Show stalker state");
-        sender.sendMessage("§e/hfoxyshorrorplugin paranoia [player]    §7- Apply paranoia effect");
-        sender.sendMessage("§e/hfoxyshorrorplugin immune [player]      §7- Toggle immunity");
-        sender.sendMessage("§e/hfoxyshorrorplugin giveeye [player]     §7- Give cursed eye item");
-        sender.sendMessage("§e/hfoxyshorrorplugin reload               §7- Reload config");
-        sender.sendMessage("§e/hfoxyshorrorplugin debug                §7- Toggle debug logging");
+        sender.sendMessage("§e/foxyshorrorplugin spawn [player]       §7- Force spawn stalker");
+        sender.sendMessage("§e/foxyshorrorplugin despawn [player]     §7- Remove stalker");
+        sender.sendMessage("§e/foxyshorrorplugin despawnall           §7- Remove all stalkers");
+        sender.sendMessage("§e/foxyshorrorplugin freeze [player]      §7- Toggle gaze-lock (won't despawn on look)");
+        sender.sendMessage("§e/foxyshorrorplugin nocooldown [player]  §7- Clear spawn cooldown");
+        sender.sendMessage("§e/foxyshorrorplugin pose <pose> [player] §7- Set active stalker pose");
+        sender.sendMessage("§e/foxyshorrorplugin info [player]        §7- Show stalker state");
+        sender.sendMessage("§e/foxyshorrorplugin paranoia [player]    §7- Apply paranoia effect");
+        sender.sendMessage("§e/foxyshorrorplugin immune [player]      §7- Toggle immunity");
+        sender.sendMessage("§e/foxyshorrorplugin giveeye [player]     §7- Give cursed eye item");
+        sender.sendMessage("§e/foxyshorrorplugin reload               §7- Reload config");
+        sender.sendMessage("§e/foxyshorrorplugin debug                §7- Toggle debug logging");
     }
 
     private Player resolveTarget(CommandSender sender, String[] args, int index) {

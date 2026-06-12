@@ -9,14 +9,26 @@ public class ResourcePackManager {
     public ResourcePackManager(HorrorPlugin plugin) { this.plugin = plugin; }
 
     public void sendPack(Player player) {
-        String  url      = plugin.getConfig().getString("resource-pack.url", "");
-        String  sha1     = plugin.getConfig().getString("resource-pack.sha1", "");
-        boolean required = plugin.getConfig().getBoolean("resource-pack.required", true);
-        String  prompt   = plugin.getConfig().getString("resource-pack.prompt", "Horror resource pack required.");
+        String url    = plugin.getConfig().getString("resource-pack.url", "");
+        String sha1   = plugin.getConfig().getString("resource-pack.sha1", "");
+        String prompt = plugin.getConfig().getString("resource-pack.prompt", "Horror resource pack required.");
 
         if (url == null || url.isBlank()) return;
+
         try {
-            player.setResourcePack(url, sha1.isBlank() ? null : sha1, required, prompt);
+            player.sendResourcePacks(
+                    net.kyori.adventure.resource.ResourcePackRequest.resourcePackRequest()
+                            .packs(
+                                    net.kyori.adventure.resource.ResourcePackInfo.resourcePackInfo(
+                                            java.util.UUID.randomUUID(),
+                                            java.net.URI.create(url),
+                                            sha1.isBlank() ? "" : sha1
+                                    )
+                            )
+                            .prompt(net.kyori.adventure.text.Component.text(prompt))
+                            .required(true)
+                            .build()
+            );
         } catch (Exception e) {
             plugin.getLogger().warning("[ResourcePack] Failed for " + player.getName() + ": " + e.getMessage());
         }

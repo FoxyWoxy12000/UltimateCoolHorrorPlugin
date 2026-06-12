@@ -12,6 +12,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import net.FoxyWoxy.horrorPlugin.commands.HorrorCommand;
 
 public final class HorrorPlugin extends JavaPlugin {
 
@@ -44,6 +45,8 @@ public final class HorrorPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BrewingListener(this), this);
 
         getServer().getScheduler().runTaskTimer(this, stalkerManager::tick, 20L, 10L);
+        getCommand("foxyshorrorplugin").setExecutor(new HorrorCommand(this));
+        getCommand("foxyshorrorplugin").setTabCompleter(new HorrorCommand(this));
         getLogger().info("HorrorPlugin enabled. They're watching.");
     }
 

@@ -52,7 +52,7 @@ public class StalkerManager {
                 ai.playProximitySound(player);
         }
 
-        if (checker.shouldDespawn(player, data)) despawnStalker(player, data);
+        if (!data.isGazeLocked() && checker.shouldDespawn(player, data)) despawnStalker(player, data);
     }
 
     private void tickSpawnCheck(Player player, PlayerData data) {

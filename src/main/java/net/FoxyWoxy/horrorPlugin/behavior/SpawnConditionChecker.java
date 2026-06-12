@@ -21,6 +21,7 @@ public class SpawnConditionChecker {
         if (player.hasPermission("horror.immune")) return false;
         if (data.hasActiveStalker()) return false;
         if (!data.isCooldownExpired()) return false;
+        if (data.isForceImmune()) return false;
 
         List<String> worlds = plugin.getConfig().getStringList("stalker.allowed-worlds");
         if (!worlds.isEmpty() && !worlds.contains(player.getWorld().getName())) return false;

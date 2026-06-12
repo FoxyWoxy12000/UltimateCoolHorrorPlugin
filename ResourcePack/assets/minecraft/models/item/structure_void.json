@@ -1,0 +1,15 @@
+{
+  "parent": "item/generated",
+  "textures": { "layer0": "item/structure_void" },
+  "overrides": [
+    { "predicate": { "custom_model_data": 1001 }, "model": "item/horror/stalker_standing"  },
+    { "predicate": { "custom_model_data": 1002 }, "model": "item/horror/stalker_peeking"   },
+    { "predicate": { "custom_model_data": 1003 }, "model": "item/horror/stalker_crouching" },
+    { "predicate": { "custom_model_data": 1004 }, "model": "item/horror/stalker_hanging"   },
+    { "predicate": { "custom_model_data": 1005 }, "model": "item/horror/stalker_sitting"   },
+    { "predicate": { "custom_model_data": 1006 }, "model": "item/horror/stalker_tilted"    },
+    { "predicate": { "custom_model_data": 1007 }, "model": "item/horror/stalker_reaching"  },
+    { "predicate": { "custom_model_data": 2001 }, "model": "item/horror/cursed_eye"        },
+    { "predicate": { "custom_model_data": 2002 }, "model": "item/horror/paranoia_brew"     }
+  ]
+}

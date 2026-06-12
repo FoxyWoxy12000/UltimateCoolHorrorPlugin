@@ -1,0 +1,22 @@
+name: HorrorPlugin
+version: '${project.version}'
+main: net.FoxyWoxy.horrorPlugin.HorrorPlugin
+api-version: '1.21.11'
+authors: [ FoxyWoxy ]
+
+depend:
+  - packetevents
+
+commands:
+  horror:
+    description: Admin commands for the horror plugin
+    usage: /horror <reload|give|debug|spawn>
+    permission: horror.admin
+
+permissions:
+  horror.admin:
+    description: Access to all horror admin commands
+    default: op
+  horror.immune:
+    description: Makes a player immune to horror effects
+    default: false

@@ -1,0 +1,36 @@
+resource-pack:
+  url: ""
+  sha1: ""
+  required: true
+  prompt: "This server requires the Horror resource pack."
+
+stalker:
+  enabled: true
+  cooldown-min: 15
+  cooldown-max: 45
+  spawn-distance-min: 18
+  spawn-distance-max: 48
+  gaze-despawn-angle: 8.0
+  proximity-despawn-distance: 10
+  gaze-hold-ms: 400
+  player-avoid-count: 1
+  player-avoid-radius: 80
+  linger-min: 6
+  linger-max: 18
+  allowed-worlds:
+    - world
+  blacklisted-biomes: []
+
+paranoia-potion:
+  spawn-rate-multiplier: 2.0
+  duration: 120
+
+sounds:
+  ambient-enabled: true
+  ambient-volume: 0.4
+  proximity-volume: 0.7
+
+debug:
+  enabled: false
+  show-particles: false
+  log-events: false

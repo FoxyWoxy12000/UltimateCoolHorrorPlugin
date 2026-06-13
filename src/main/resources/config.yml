@@ -1,11 +1,12 @@
 resource-pack:
-  url: ""
-  sha1: ""
+  url: "https://github.com/FoxyWoxy12000/UltimateCoolHorrorPlugin/releases/download/ALPHA/HorrorResourcePack.zip"
+  sha1: "0df02fb6a318811edc3a11a8aca8c6927a927454"
   required: true
   prompt: "This server requires the Horror resource pack."
 
 stalker:
   enabled: true
+  allow-creative: false
   cooldown-min: 15
   cooldown-max: 45
   spawn-distance-min: 18
@@ -13,7 +14,7 @@ stalker:
   gaze-despawn-angle: 8.0
   proximity-despawn-distance: 10
   gaze-hold-ms: 400
-  player-avoid-count: 1
+  player-avoid-count: 3
   player-avoid-radius: 80
   linger-min: 6
   linger-max: 18

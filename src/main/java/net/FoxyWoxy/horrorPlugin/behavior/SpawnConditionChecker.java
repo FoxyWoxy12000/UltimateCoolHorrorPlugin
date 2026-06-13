@@ -16,8 +16,11 @@ public class SpawnConditionChecker {
     public boolean canSpawn(Player player, PlayerData data) {
         if (!plugin.getConfig().getBoolean("stalker.enabled", true)) return false;
         if (!player.isOnline()) return false;
-        if (player.getGameMode() == GameMode.CREATIVE
-                || player.getGameMode() == GameMode.SPECTATOR) return false;
+
+        boolean allowCreative = plugin.getConfig().getBoolean("stalker.allow-creative", false);
+        if (!allowCreative && (player.getGameMode() == GameMode.CREATIVE
+                || player.getGameMode() == GameMode.SPECTATOR)) return false;
+
         if (player.hasPermission("horror.immune")) return false;
         if (data.hasActiveStalker()) return false;
         if (!data.isCooldownExpired()) return false;
@@ -59,8 +62,9 @@ public class SpawnConditionChecker {
         if (System.currentTimeMillis() > expires) return true;
 
         if (player.isDead()) return true;
-        if (player.getGameMode() == GameMode.CREATIVE
-                || player.getGameMode() == GameMode.SPECTATOR) return true;
+        boolean allowCreative = plugin.getConfig().getBoolean("stalker.allow-creative", false);
+        if (!allowCreative && (player.getGameMode() == GameMode.CREATIVE
+                || player.getGameMode() == GameMode.SPECTATOR)) return true;
 
         return false;
     }

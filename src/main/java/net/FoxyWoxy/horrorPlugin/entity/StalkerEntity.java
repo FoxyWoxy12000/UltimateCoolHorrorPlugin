@@ -35,7 +35,7 @@ public class StalkerEntity {
         display = location.getWorld().spawn(location, ItemDisplay.class, entity -> {
             entity.setItemStack(buildItem(pose));
             entity.setBillboard(Display.Billboard.FIXED);
-            entity.setViewRange(0.0f);
+            entity.setViewRange(1.0f);
         });
 
         hideFromAll();
@@ -77,14 +77,61 @@ public class StalkerEntity {
     private void hideFromAll() {
         if (display == null) return;
         int eid = display.getEntityId();
+
+        // immediate destroy packet to all non-targets
         for (Player online : plugin.getServer().getOnlinePlayers()) {
             if (online.equals(target)) continue;
-            try {
-                var user = PacketEvents.getAPI().getPlayerManager().getUser(online);
-                if (user != null)
-                    user.sendPacket(new WrapperPlayServerDestroyEntities(eid));
-            } catch (Exception ignored) {}
+            sendDestroyPacket(online, eid);
         }
+
+        // delayed second pass to catch any timing issues
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            if (display == null || display.isDead()) return;
+            for (Player online : plugin.getServer().getOnlinePlayers()) {
+                if (online.equals(target)) continue;
+                sendDestroyPacket(online, eid);
+            }
+        }, 2L);
+    }
+
+    private void sendDestroyPacket(Player player, int entityId) {
+        try {
+            var user = PacketEvents.getAPI().getPlayerManager().getUser(player);
+            if (user != null)
+                user.sendPacket(new WrapperPlayServerDestroyEntities(entityId));
+        } catch (Exception ignored) {}
+    }
+
+    public void hideFromPlayer(Player player) {
+        if (display == null || display.isDead()) return;
+        if (player.equals(target)) return;
+        sendDestroyPacket(player, display.getEntityId());
+    }
+
+    private void facePlayer(Location stalkerLoc) {
+        if (display == null) return;
+
+        Location playerLoc = target.getEyeLocation();
+
+        double dx = playerLoc.getX() - stalkerLoc.getX();
+        double dz = playerLoc.getZ() - stalkerLoc.getZ();
+
+        // Angle from stalker to player — model face is NORTH (-Z) so we offset by 180
+        float yawDeg = (float) Math.toDegrees(Math.atan2(-dx, dz)) + 180f;
+        float yawRad = (float) Math.toRadians(yawDeg);
+
+        // Build a Y-axis rotation quaternion
+        float sin = (float) Math.sin(yawRad / 2f);
+        float cos = (float) Math.cos(yawRad / 2f);
+
+        org.bukkit.util.Transformation transformation = new org.bukkit.util.Transformation(
+                new org.joml.Vector3f(0, 0, 0),           // translation
+                new org.joml.Quaternionf(0, sin, 0, cos), // left rotation (Y axis)
+                new org.joml.Vector3f(1, 1, 1),           // scale
+                new org.joml.Quaternionf(0, 0, 0, 1)      // right rotation (none)
+        );
+
+        display.setTransformation(transformation);
     }
 
     public boolean     isAlive()        { return alive && display != null && !display.isDead(); }

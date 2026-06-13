@@ -44,6 +44,12 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage("§aStalker force-spawned on §f" + target.getName());
             }
 
+            case "allowcreative" -> {
+                boolean cur = plugin.getConfig().getBoolean("stalker.allow-creative", false);
+                plugin.getConfig().set("stalker.allow-creative", !cur);
+                sender.sendMessage("§eCreative mode targeting: " + (!cur ? "§aON" : "§cOFF"));
+            }
+
             // /foxyshorrorplugin despawn [player]
             // Removes the stalker from a player
             case "despawn" -> {
@@ -203,6 +209,7 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage("§e/foxyshorrorplugin giveeye [player]     §7- Give cursed eye item");
         sender.sendMessage("§e/foxyshorrorplugin reload               §7- Reload config");
         sender.sendMessage("§e/foxyshorrorplugin debug                §7- Toggle debug logging");
+        sender.sendMessage("§e/foxyshorrorplugin allowcreative      §7- Toggle creative player targeting");
     }
 
     private Player resolveTarget(CommandSender sender, String[] args, int index) {
@@ -225,7 +232,7 @@ public class HorrorCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
             return List.of("spawn","despawn","despawnall","freeze","nocooldown",
-                            "pose","info","paranoia","immune","giveeye","reload","debug")
+                            "pose","info","paranoia","immune","giveeye","reload","debug","allowcreative")
                     .stream().filter(s -> s.startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList());
         }

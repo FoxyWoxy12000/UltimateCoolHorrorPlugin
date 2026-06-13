@@ -1,6 +1,6 @@
 resource-pack:
-  url: "https://github.com/FoxyWoxy12000/UltimateCoolHorrorPlugin/releases/download/ALPHA/HorrorResourcePack.zip"
-  sha1: "0df02fb6a318811edc3a11a8aca8c6927a927454"
+  url: "https://github.com/FoxyWoxy12000/UltimateCoolHorrorPlugin/releases/download/ALPHA2/HorrorResourcePackv0.2.zip"
+  sha1: "e95bb36fefb36105453184b6634cbae15a3ab26a"
   required: true
   prompt: "This server requires the Horror resource pack."
 

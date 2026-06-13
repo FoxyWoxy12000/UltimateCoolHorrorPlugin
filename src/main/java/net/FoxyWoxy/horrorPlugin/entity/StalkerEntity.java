@@ -121,19 +121,18 @@ public class StalkerEntity {
         double dx = playerLoc.getX() - stalkerLoc.getX();
         double dz = playerLoc.getZ() - stalkerLoc.getZ();
 
-        // Angle from stalker to player — model face is NORTH (-Z) so we offset by 180
-        float yawDeg = (float) Math.toDegrees(Math.atan2(-dx, dz)) + 180f;
+        // fixed atan2 order for correct direction
+        float yawDeg = (float) Math.toDegrees(Math.atan2(dx, dz));
         float yawRad = (float) Math.toRadians(yawDeg);
 
-        // Build a Y-axis rotation quaternion
         float sin = (float) Math.sin(yawRad / 2f);
         float cos = (float) Math.cos(yawRad / 2f);
 
         org.bukkit.util.Transformation transformation = new org.bukkit.util.Transformation(
-                new org.joml.Vector3f(0, 0, 0),           // translation
-                new org.joml.Quaternionf(0, sin, 0, cos), // left rotation (Y axis)
-                new org.joml.Vector3f(1, 1, 1),           // scale
-                new org.joml.Quaternionf(0, 0, 0, 1)      // right rotation (none)
+                new org.joml.Vector3f(0, 0, 0),
+                new org.joml.Quaternionf(0, sin, 0, cos),
+                new org.joml.Vector3f(1, 1, 1),
+                new org.joml.Quaternionf(0, 0, 0, 1)
         );
 
         display.setTransformation(transformation);

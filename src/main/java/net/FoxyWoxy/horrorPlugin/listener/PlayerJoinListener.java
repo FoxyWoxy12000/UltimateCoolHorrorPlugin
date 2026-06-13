@@ -17,11 +17,17 @@ public class PlayerJoinListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player joined = event.getPlayer();
 
+        // send resource pack after 2 seconds then mark as pending
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            if (joined.isOnline())
-                plugin.getResourcePackManager().sendPack(joined);
-        }, 20L);
+            if (!joined.isOnline()) return;
+            plugin.getResourcePackManager().sendPack(joined);
+            // mark as pending AFTER sending so spurious early events are ignored
+            plugin.getServer().getScheduler().runTaskLater(plugin, () ->
+                            plugin.getResourcePackListener().addPending(joined.getUniqueId())
+                    , 5L);
+        }, 40L);
 
+        // hide stalkers from joining player
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             if (!joined.isOnline()) return;
             for (PlayerData data : plugin.getPlayerDataManager().all()) {
@@ -34,14 +40,12 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
         Player respawned = event.getPlayer();
-
-        // delay needed — entity tracker resends all entities after respawn
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             if (!respawned.isOnline()) return;
             for (PlayerData data : plugin.getPlayerDataManager().all()) {
                 if (!data.hasActiveStalker()) continue;
                 data.getActiveStalker().hideFromPlayer(respawned);
             }
-        }, 10L);  // slightly longer delay than join to account for respawn sequence
+        }, 10L);
     }
 }

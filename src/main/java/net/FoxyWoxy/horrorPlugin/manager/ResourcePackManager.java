@@ -21,14 +21,13 @@ public class ResourcePackManager {
                     net.kyori.adventure.resource.ResourcePackRequest.resourcePackRequest()
                             .packs(
                                     net.kyori.adventure.resource.ResourcePackInfo.resourcePackInfo(
-                                            java.util.UUID.randomUUID(), // ← random UUID every time = never remembers choice
+                                            java.util.UUID.nameUUIDFromBytes(url.getBytes()),
                                             java.net.URI.create(url),
                                             sha1.isBlank() ? "" : sha1
                                     )
                             )
                             .prompt(net.kyori.adventure.text.Component.text(prompt))
-                            .required(required)
-                            .replace(true) // ← replaces any previously applied pack
+                            .required(false)
                             .build()
             );
         } catch (Exception e) {

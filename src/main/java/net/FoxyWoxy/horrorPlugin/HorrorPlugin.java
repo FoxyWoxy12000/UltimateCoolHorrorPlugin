@@ -24,6 +24,7 @@ public final class HorrorPlugin extends JavaPlugin {
     private StalkerManager      stalkerManager;
     private ResourcePackManager resourcePackManager;
     private CursedEyeItem       cursedEyeItem;
+    private ResourcePackListener resourcePackListener;
 
     @Override
     public void onLoad() {
@@ -40,11 +41,12 @@ public final class HorrorPlugin extends JavaPlugin {
         resourcePackManager = new ResourcePackManager(this);
         stalkerManager      = new StalkerManager(this);
         cursedEyeItem       = new CursedEyeItem(this);
+        resourcePackListener = new ResourcePackListener(this);
 
+        getServer().getPluginManager().registerEvents(resourcePackListener, this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerLookListener(this), this);
         getServer().getPluginManager().registerEvents(new BrewingListener(this), this);
-        getServer().getPluginManager().registerEvents(new ResourcePackListener(this), this);
         getServer().getScheduler().runTaskTimer(this, stalkerManager::tick, 20L, 10L);
         getCommand("foxyshorrorplugin").setExecutor(new HorrorCommand(this));
         getCommand("foxyshorrorplugin").setTabCompleter(new HorrorCommand(this));
@@ -114,4 +116,5 @@ public final class HorrorPlugin extends JavaPlugin {
     public ResourcePackManager getResourcePackManager()  { return resourcePackManager; }
     public CursedEyeItem       getCursedEyeItem()        { return cursedEyeItem; }
     public boolean isDebug() { return getConfig().getBoolean("debug.enabled", false); }
+    public ResourcePackListener getResourcePackListener() { return resourcePackListener; }
 }

@@ -10,6 +10,7 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.NamespacedKey;
 
 public class StalkerEntity {
 
@@ -66,9 +67,9 @@ public class StalkerEntity {
     }
 
     private ItemStack buildItem(PoseType pose) {
-        ItemStack item = new ItemStack(Material.STRUCTURE_VOID);
+        ItemStack item = new ItemStack(Material.RECOVERY_COMPASS);
         ItemMeta  meta = item.getItemMeta();
-        meta.setCustomModelData(pose.getCustomModelData());
+        meta.setItemModel(new NamespacedKey("horrorplugin", pose.getItemModelName()));
         item.setItemMeta(meta);
         return item;
     }

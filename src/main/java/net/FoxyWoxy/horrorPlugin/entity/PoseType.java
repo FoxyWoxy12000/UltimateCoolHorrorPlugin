@@ -1,22 +1,37 @@
 package net.FoxyWoxy.horrorPlugin.entity;
 
 public enum PoseType {
-    STANDING  (1001, "Standing upright in the distance"),
-    PEEKING   (1002, "Leaning around a wall corner"),
-    CROUCHING (1003, "Hidden under a slab or low ceiling"),
-    HANGING   (1004, "Suspended from a fence or ceiling beam"),
-    SITTING   (1005, "Seated, legs folded, watching"),
-    TILTED    (1006, "Head tilted at an unnatural angle"),
-    REACHING  (1007, "One arm extended toward the player");
 
-    private final int    customModelData;
-    private final String description;
+    // ── Open area poses ──────────────────────────────────────────
+    STANDING        ("stalker_standing"),       // upright, far away
+    TILTED          ("stalker_tilted"),          // head tilted unnaturally
+    REACHING        ("stalker_reaching"),        // one arm extended toward player
+    SITTING         ("stalker_sitting"),         // seated on ground watching
 
-    PoseType(int cmd, String desc) {
-        this.customModelData = cmd;
-        this.description     = desc;
+    // ── Wall / corner poses ──────────────────────────────────────
+    PEEK_LEFT       ("stalker_peek_left"),       // leaning around left side of wall
+    PEEK_RIGHT      ("stalker_peek_right"),      // leaning around right side of wall
+    PRESSED_WALL    ("stalker_pressed_wall"),    // flat against a wall facing player
+
+    // ── Low ceiling / slab poses ─────────────────────────────────
+    UNDER_SLAB      ("stalker_under_slab"),      // crouched under a slab, looking out
+    OVER_SLAB       ("stalker_over_slab"),       // peering over the top of a slab
+    CRAWLING        ("stalker_crawling"),        // fully prone, crawling toward player
+
+    // ── Ceiling / elevated poses ─────────────────────────────────
+    HANGING         ("stalker_hanging"),         // hanging from fence/ceiling by hands
+    HANGING_INVERTED("stalker_hanging_inverted"),// fully upside down from ceiling
+    CLINGING_WALL   ("stalker_clinging_wall"),   // spider-like on a vertical wall
+
+    // ── Doorframe / tight space poses ───────────────────────────
+    DOORFRAME       ("stalker_doorframe"),       // standing in a doorway
+    CROUCHING       ("stalker_crouching");       // crouched in a low passage
+
+    private final String itemModelName;
+
+    PoseType(String itemModelName) {
+        this.itemModelName = itemModelName;
     }
 
-    public int    getCustomModelData() { return customModelData; }
-    public String getDescription()     { return description; }
+    public String getItemModelName() { return itemModelName; }
 }

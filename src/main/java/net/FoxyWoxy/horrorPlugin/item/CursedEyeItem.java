@@ -14,20 +14,23 @@ import java.util.List;
 
 public class CursedEyeItem {
 
-    public static final int    CMD     = 2001;
     public static final String PDC_KEY = "cursed_eye";
 
     private final HorrorPlugin  plugin;
     private final NamespacedKey pdcKey;
+    private final NamespacedKey modelKey;
 
     public CursedEyeItem(HorrorPlugin plugin) {
-        this.plugin = plugin;
-        this.pdcKey = new NamespacedKey(plugin, PDC_KEY);
+        this.plugin   = plugin;
+        this.pdcKey   = new NamespacedKey(plugin, PDC_KEY);
+        this.modelKey = new NamespacedKey("horrorplugin", "cursed_eye");
     }
 
     public ItemStack createItem() {
-        ItemStack item = new ItemStack(Material.STRUCTURE_VOID);
+        ItemStack item = new ItemStack(Material.RECOVERY_COMPASS);
         ItemMeta  meta = item.getItemMeta();
+
+        meta.setItemModel(modelKey);
 
         meta.displayName(Component.text("Cursed Eye")
                 .color(NamedTextColor.DARK_RED)
@@ -44,14 +47,13 @@ public class CursedEyeItem {
                         .decoration(TextDecoration.ITALIC, false)
         ));
 
-        meta.setCustomModelData(CMD);
         meta.getPersistentDataContainer().set(pdcKey, PersistentDataType.BYTE, (byte) 1);
         item.setItemMeta(meta);
         return item;
     }
 
     public boolean isCursedEye(ItemStack item) {
-        if (item == null || item.getType() != Material.STRUCTURE_VOID) return false;
+        if (item == null || item.getType() != Material.RECOVERY_COMPASS) return false;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return false;
         return meta.getPersistentDataContainer().has(pdcKey, PersistentDataType.BYTE);

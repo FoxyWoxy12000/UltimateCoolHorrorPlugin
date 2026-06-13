@@ -15,21 +15,25 @@ import java.util.List;
 
 public class ParanoiaBrew {
 
-    public static final int    CMD     = 2002;
     public static final String PDC_KEY = "paranoia_brew";
 
     private final HorrorPlugin  plugin;
     private final NamespacedKey pdcKey;
+    private final NamespacedKey modelKey;
 
     public ParanoiaBrew(HorrorPlugin plugin) {
-        this.plugin = plugin;
-        this.pdcKey = new NamespacedKey(plugin, PDC_KEY);
+        this.plugin   = plugin;
+        this.pdcKey   = new NamespacedKey(plugin, PDC_KEY);
+        this.modelKey = new NamespacedKey("horrorplugin", "paranoia_brew");
     }
 
     public ItemStack createItem() {
-        ItemStack item = new ItemStack(Material.STRUCTURE_VOID);
+        ItemStack item = new ItemStack(Material.RECOVERY_COMPASS);
         ItemMeta  meta = item.getItemMeta();
-        long duration  = plugin.getConfig().getLong("paranoia-potion.duration", 120L);
+
+        meta.setItemModel(modelKey);
+
+        long duration = plugin.getConfig().getLong("paranoia-potion.duration", 120L);
 
         meta.displayName(Component.text("Paranoia Brew")
                 .color(NamedTextColor.DARK_PURPLE)
@@ -46,14 +50,13 @@ public class ParanoiaBrew {
                         .decoration(TextDecoration.ITALIC, false)
         ));
 
-        meta.setCustomModelData(CMD);
         meta.getPersistentDataContainer().set(pdcKey, PersistentDataType.BYTE, (byte) 1);
         item.setItemMeta(meta);
         return item;
     }
 
     public boolean isParanoiaBrew(ItemStack item) {
-        if (item == null || item.getType() != Material.STRUCTURE_VOID) return false;
+        if (item == null || item.getType() != Material.RECOVERY_COMPASS) return false;
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return false;
         return meta.getPersistentDataContainer().has(pdcKey, PersistentDataType.BYTE);

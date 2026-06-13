@@ -41,8 +41,11 @@ public class StalkerManager {
         if (!stalker.isAlive()) {
             data.clearActiveStalker();
             applyRandomCooldown(data);
+
             return;
         }
+
+        stalker.updateFacing();
 
         Location loc = stalker.getLocation();
         if (loc != null) {

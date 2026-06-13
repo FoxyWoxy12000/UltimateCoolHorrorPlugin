@@ -27,6 +27,11 @@ public class StalkerEntity {
         this.alive  = false;
     }
 
+    public void updateFacing() {
+        Location loc = getLocation();
+        if (loc != null) facePlayer(loc);
+    }
+
     public void spawn(Location location, PoseType pose) {
         this.currentPose = pose;
         this.spawnTime   = System.currentTimeMillis();

@@ -12,7 +12,6 @@ public class ResourcePackManager {
         String url    = plugin.getConfig().getString("resource-pack.url", "");
         String sha1   = plugin.getConfig().getString("resource-pack.sha1", "");
         String prompt = plugin.getConfig().getString("resource-pack.prompt", "Horror resource pack required.");
-        boolean required = plugin.getConfig().getBoolean("resource-pack.required", true);
 
         if (url == null || url.isBlank()) return;
 
@@ -21,13 +20,13 @@ public class ResourcePackManager {
                     net.kyori.adventure.resource.ResourcePackRequest.resourcePackRequest()
                             .packs(
                                     net.kyori.adventure.resource.ResourcePackInfo.resourcePackInfo(
-                                            java.util.UUID.nameUUIDFromBytes(url.getBytes()),
+                                            java.util.UUID.randomUUID(),
                                             java.net.URI.create(url),
                                             sha1.isBlank() ? "" : sha1
                                     )
                             )
                             .prompt(net.kyori.adventure.text.Component.text(prompt))
-                            .required(false)
+                            .required(true)
                             .build()
             );
         } catch (Exception e) {

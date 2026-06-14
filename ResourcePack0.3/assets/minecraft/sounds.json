@@ -1,0 +1,11 @@
+{
+  "horror.stalk_ambient": {
+    "sounds": [{ "name": "horror/stalk_ambient", "volume": 1.0, "pitch": 1.0 }]
+  },
+  "horror.stalk_nearby": {
+    "sounds": [{ "name": "horror/stalk_nearby", "volume": 1.0, "pitch": 1.0 }]
+  },
+  "horror.stalk_gone": {
+    "sounds": [{ "name": "horror/stalk_gone", "volume": 0.8, "pitch": 0.9 }]
+  }
+}
